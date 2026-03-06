@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commissioner's Corner</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18;
+    --paper: #f4f0e8;
+    --paper-dark: #e8e2d4;
+    --red: #c0392b;
+    --gold: #b8960c;
+    --rule: #1a1a18;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Libre Baskerville', serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* NEWSPAPER MASTHEAD */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 28px 24px 20px;
+    border-bottom: 4px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    );
+  }
+
+  .masthead-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .masthead-title {
+    font-family: var(--display);
+    font-size: clamp(52px, 10vw, 96px);
+    letter-spacing: 6px;
+    line-height: 0.9;
+    color: var(--paper);
+  }
+
+  .masthead-title span {
+    color: var(--gold);
+  }
+
+  .masthead-rule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0 10px;
+  }
+
+  .masthead-rule::before,
+  .masthead-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.25);
+  }
+
+  .masthead-rule-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .masthead-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 2px;
+  }
+
+  /* CONTROLS BAR */
+  .controls-bar {
+    background: var(--paper-dark);
+    border-bottom: 2px solid var(--ink);
+    padding: 14px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .controls-bar label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.6;
+  }
+
+  .controls-bar select,
+  .controls-bar button {
+    font-family: var(--mono);
+    font-size: 12px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .controls-bar select:hover,
+  .controls-bar button:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn-load {
+    background: var(--red) !important;
+    color: var(--paper) !important;
+    border-color: var(--red) !important;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .btn-load:hover {
+    background: var(--ink) !important;
+    border-color: var(--ink) !important;
+  }
+
+  .btn-copy {
+    background: var(--gold) !important;
+    color: var(--paper) !important;
+    border-color: var(--gold) !important;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* MAIN LAYOUT */
+  .newspaper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* SECTION HEADERS */
+  .section-head {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 6px 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .section-head h2 {
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .section-head .section-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  /* MATCHUPS */
+  .matchups-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .matchup-card {
+    background: white;
+    border: 1.5px solid var(--paper-dark);
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    align-items: center;
+    overflow: hidden;
+    transition: border-color 0.15s;
+    animation: fadeSlide 0.4s ease both;
+  }
+
+  .matchup-card:nth-child(1) { animation-delay: 0.05s; }
+  .matchup-card:nth-child(2) { animation-delay: 0.1s; }
+  .matchup-card:nth-child(3) { animation-delay: 0.15s; }
+  .matchup-card:nth-child(4) { animation-delay: 0.2s; }
+  .matchup-card:nth-child(5) { animation-delay: 0.25s; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .matchup-card:hover {
+    border-color: var(--ink);
+  }
+
+  .team-side {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .team-side.away { text-align: left; }
+  .team-side.home { text-align: right; }
+
+  .team-name {
+    font-family: var(--display);
+    font-size: 17px;
+    letter-spacing: 1px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .team-owner {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--ink);
+    opacity: 0.45;
+    text-transform: uppercase;
+  }
+
+  .team-record {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink);
+    opacity: 0.55;
+    margin-top: 2px;
+  }
+
+  .score-center {
+    text-align: center;
+    padding: 12px 8px;
+    border-left: 1px solid var(--paper-dark);
+    border-right: 1px solid var(--paper-dark);
+    background: var(--paper);
+  }
+
+  .score-display {
+    font-family: var(--display);
+    font-size: 26px;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .score-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-top: 3px;
+  }
+
+  .winner-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    margin-top: 4px;
+  }
+
+  .blowout-badge {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    margin-top: 4px;
+  }
+
+  /* STANDINGS TABLE */
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .standings-table th {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+    opacity: 0.6;
+  }
+
+  .standings-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--paper-dark);
+    vertical-align: middle;
+  }
+
+  .standings-table tr:hover td {
+    background: white;
+  }
+
+  .rank-num {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--ink);
+    opacity: 0.25;
+    width: 28px;
+  }
+
+  .standings-team {
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  .standings-owner {
+    font-family: var(--mono);
+    font-size: 9px;
+    opacity: 0.45;
+    letter-spacing: 1px;
+  }
+
+  .standings-wl {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .standings-pts {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-align: right;
+    opacity: 0.65;
+  }
+
+  .playoff-cut {
+    border-bottom: 2px dashed var(--red) !important;
+    position: relative;
+  }
+
+  .playoff-cut td:first-child::after {
+    content: '— PLAYOFF LINE —';
+    position: absolute;
+    bottom: -9px;
+    left: 8px;
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 2px;
+    background: var(--paper);
+    padding: 0 4px;
+  }
+
+  /* COMMISSIONER'S CORNER */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .corner-box {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    border: none;
+  }
+
+  .corner-header {
+    background: var(--red);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .corner-header h3 {
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .corner-header span {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .corner-body {
+    padding: 16px;
+  }
+
+  .corner-narrative {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--paper);
+    font-family: var(--serif);
+    font-size: 13px;
+    line-height: 1.65;
+    padding: 14px;
+    resize: vertical;
+    min-height: 200px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-style: italic;
+  }
+
+  .corner-narrative::placeholder {
+    color: rgba(255,255,255,0.25);
+    font-style: italic;
+  }
+
+  .corner-narrative:focus {
+    border-color: var(--gold);
+  }
+
+  .corner-hint {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    margin-top: 8px;
+  }
+
+  /* IMESSAGE PREVIEW */
+  .imessage-box {
+    background: #1c1c1e;
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  .imessage-header {
+    background: #2c2c2e;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .imessage-header span {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .imessage-header strong {
+    color: #30d158;
+    font-size: 11px;
+  }
+
+  .imessage-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .imessage-bubble {
+    background: #0a84ff;
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+    padding: 10px 14px;
+    font-family: -apple-system, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    max-width: 90%;
+    align-self: flex-end;
+    white-space: pre-wrap;
+  }
+
+  .imessage-preview-text {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    letter-spacing: 1px;
+    padding: 4px 0 12px;
+  }
+
+  /* PRIZE TRACKER */
+  .prize-box {
+    background: white;
+    border: 1.5px solid var(--paper-dark);
+  }
+
+  .prize-header {
+    background: var(--gold);
+    padding: 8px 14px;
+  }
+
+  .prize-header h3 {
+    font-family: var(--display);
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: white;
+    text-transform: uppercase;
+  }
+
+  .prize-body {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prize-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--paper);
+    border-left: 3px solid var(--paper-dark);
+  }
+
+  .prize-row.highlight {
+    border-left-color: var(--gold);
+    background: #fffbee;
+  }
+
+  .prize-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .prize-value {
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--ink);
+  }
+
+  .prize-name {
+    font-family: var(--serif);
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* STATUS / LOADING */
+  .status-bar {
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--paper-dark);
+    padding: 8px 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink);
+    opacity: 0.6;
+    text-transform: uppercase;
+    min-height: 30px;
+    transition: all 0.3s;
+  }
+
+  .status-bar.loading { color: var(--gold); opacity: 1; }
+  .status-bar.error { color: var(--red); opacity: 1; }
+  .status-bar.success { color: #2d6a4f; opacity: 1; }
+
+  .loading-dots::after {
+    content: '';
+    animation: dots 1.2s steps(4, end) infinite;
+  }
+
+  @keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+  }
+
+  /* SKELETON */
+  .skeleton {
+    background: linear-gradient(90deg, var(--paper-dark) 25%, var(--paper) 50%, var(--paper-dark) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 2px;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .empty-state {
+    padding: 40px;
+    text-align: center;
+    opacity: 0.4;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px dashed var(--paper-dark);
+  }
+
+  /* COPY TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-left: 3px solid var(--gold);
+    transform: translateX(120%);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1000;
+  }
+
+  .toast.show { transform: translateX(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .newspaper {
+      grid-template-columns: 1fr;
+      padding: 20px 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-eyebrow">Est. Your League · ESPN Fantasy Football</div>
+  <div class="masthead-title">Commissioner's<span>'s</span><br>Corner</div>
+  <div class="masthead-rule"><span class="masthead-rule-text">The Official Record of the League</span></div>
+  <div class="masthead-meta" id="meta-line">League ID 1981990137 · Select a week to load results</div>
+</div>
+
+<div class="controls-bar">
+  <label>Season</label>
+  <select id="season-select">
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+  </select>
+  <label>Week</label>
+  <select id="week-select">
+    <option value="1">Week 1</option>
+    <option value="2">Week 2</option>
+    <option value="3">Week 3</option>
+    <option value="4">Week 4</option>
+    <option value="5">Week 5</option>
+    <option value="6">Week 6</option>
+    <option value="7">Week 7</option>
+    <option value="8">Week 8</option>
+    <option value="9">Week 9</option>
+    <option value="10">Week 10</option>
+    <option value="11">Week 11</option>
+    <option value="12">Week 12</option>
+    <option value="13">Week 13</option>
+    <option value="14">Week 14</option>
+  </select>
+  <button class="btn-load" onclick="loadData()">Load Results</button>
+  <button class="btn-copy" onclick="copyiMessage()" id="copy-btn" style="display:none;">Copy iMessage</button>
+</div>
+
+<div class="status-bar" id="status-bar">Ready — select season and week, then click Load Results</div>
+
+<div class="newspaper">
+  <!-- MAIN COLUMN -->
+  <div class="main-col">
+    <div class="section-head">
+      <h2>Matchup Results</h2>
+      <span class="section-sub" id="week-label">—</span>
+    </div>
+    <div class="matchups-grid" id="matchups-container">
+      <div class="empty-state">Load a week to see matchup results</div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <div class="section-head">
+        <h2>Standings</h2>
+        <span class="section-sub">After This Week</span>
+      </div>
+      <table class="standings-table" id="standings-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th style="text-align:center;">W–L</th>
+            <th style="text-align:right;">PF</th>
+          </tr>
+        </thead>
+        <tbody id="standings-body">
+          <tr><td colspan="4"><div class="empty-state">Load a week to see standings</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- COMMISSIONER'S CORNER -->
+    <div class="corner-box">
+      <div class="corner-header">
+        <h3>Commissioner's Corner</h3>
+        <span>Your Voice</span>
+      </div>
+      <div class="corner-body">
+        <textarea class="corner-narrative" id="narrative-input" placeholder="Your take on the week. Who got stomped? Who's quietly putting together a run? What veteran move went sideways? Write like you're texting your brothers-in-law and nephews at the same time — which means half of them won't get the reference either way."></textarea>
+        <div class="corner-hint">This will appear in your iMessage preview below ↓</div>
+      </div>
+    </div>
+
+    <!-- IMESSAGE PREVIEW -->
+    <div class="imessage-box">
+      <div class="imessage-header">
+        <span>iMessage Preview</span>
+        <strong>Group Chat</strong>
+      </div>
+      <div class="imessage-body">
+        <div class="imessage-bubble" id="imessage-preview">
+          Load a week and write your narrative to preview your message here.
+        </div>
+        <div class="imessage-preview-text">Preview only — use Copy iMessage button to copy</div>
+      </div>
+    </div>
+
+    <!-- PRIZE TRACKER -->
+    <div class="prize-box">
+      <div class="prize-header">
+        <h3>💰 Prize Pool</h3>
+      </div>
+      <div class="prize-body" id="prize-body">
+        <div class="prize-row highlight">
+          <div>
+            <div class="prize-label">Weekly High Score Bonus</div>
+            <div class="prize-name" id="weekly-winner-name">— Load a week</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="prize-value">$___</div>
+          </div>
+        </div>
+        <div class="prize-row">
+          <div>
+            <div class="prize-label">Tournament Pool</div>
+            <div class="prize-name">End of season</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="prize-value">$___</div>
+          </div>
+        </div>
+        <div class="prize-row">
+          <div>
+            <div class="prize-label">Regular Season Pool</div>
+            <div class="prize-name">Weekly + cumulative awards</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="prize-value">$___</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+const LEAGUE_ID = '1981990137';
+const BASE_URL = 'https://fantasy.espn.com/apis/v3/games/ffl';
+
+let leagueData = null;
+let matchupData = null;
+let currentWeek = 1;
+
+function setStatus(msg, type = '') {
+  const bar = document.getElementById('status-bar');
+  bar.className = 'status-bar ' + type;
+  bar.innerHTML = type === 'loading' ? `<span class="loading-dots">${msg}</span>` : msg;
+}
+
+async function loadData() {
+  const season = document.getElementById('season-select').value;
+  const week = document.getElementById('week-select').value;
+  currentWeek = parseInt(week);
+
+  setStatus(`Fetching Week ${week}, ${season} season data`, 'loading');
+
+  try {
+    // Fetch teams + standings
+    const teamRes = await fetch(
+      `${BASE_URL}/seasons/${season}/segments/0/leagues/${LEAGUE_ID}?view=mTeam&view=mStandings&scoringPeriodId=${week}`
+    );
+
+    // Fetch matchups
+    const matchRes = await fetch(
+      `${BASE_URL}/seasons/${season}/segments/0/leagues/${LEAGUE_ID}?view=mMatchup&view=mMatchupScore&scoringPeriodId=${week}`
+    );
+
+    if (!teamRes.ok || !matchRes.ok) {
+      throw new Error(`ESPN API returned ${teamRes.status} — the league may not have data for this week yet`);
+    }
+
+    const teamJson = await teamRes.json();
+    const matchJson = await matchRes.json();
+
+    renderMatchups(matchJson, teamJson, week, season);
+    renderStandings(teamJson);
+    updateMeta(season, week, teamJson);
+    document.getElementById('copy-btn').style.display = 'block';
+    setStatus(`Week ${week} · ${season} season loaded — ${teamJson.teams?.length || 0} teams`, 'success');
+
+  } catch (err) {
+    setStatus(`Error: ${err.message}`, 'error');
+    console.error(err);
+  }
+}
+
+function getTeamById(teams, id) {
+  return teams.find(t => t.id === id) || {};
+}
+
+function getTeamName(team) {
+  const name = team.name || (team.abbrev ? team.abbrev : 'Unknown');
+  const location = team.location || '';
+  const nickname = team.nickname || '';
+  return (location + ' ' + nickname).trim() || name || 'Team ' + team.id;
+}
+
+function getOwnerName(team) {
+  if (team.owners && team.owners.length) {
+    // ESPN stores owner display names in members array at league level
+    return team.primaryOwner || '';
+  }
+  return '';
+}
+
+function renderMatchups(matchJson, teamJson, week, season) {
+  const container = document.getElementById('matchups-container');
+  const teams = teamJson.teams || [];
+  const schedule = matchJson.schedule || [];
+
+  // Filter for current week matchups
+  const weekMatchups = schedule.filter(m => m.matchupPeriodId === parseInt(week));
+
+  if (!weekMatchups.length) {
+    container.innerHTML = '<div class="empty-state">No matchup data found for this week</div>';
+    return;
+  }
+
+  // Find highest score for weekly prize
+  let highScore = 0;
+  let highScoreTeam = '';
+
+  const cards = weekMatchups.map(matchup => {
+    const away = getTeamById(teams, matchup.away?.teamId);
+    const home = getTeamById(teams, matchup.home?.teamId);
+    const awayScore = matchup.away?.totalPoints || 0;
+    const homeScore = matchup.home?.totalPoints || 0;
+
+    const awayName = getTeamName(away);
+    const homeName = getTeamName(home);
+
+    if (awayScore > highScore) { highScore = awayScore; highScoreTeam = awayName; }
+    if (homeScore > highScore) { highScore = homeScore; highScoreTeam = homeName; }
+
+    const awayWins = awayScore > homeScore;
+    const homeWins = homeScore > awayScore;
+    const diff = Math.abs(awayScore - homeScore);
+    const isBlowout = diff > 40;
+
+    const awayRecord = away.record?.overall ? `${away.record.overall.wins}-${away.record.overall.losses}` : '';
+    const homeRecord = home.record?.overall ? `${home.record.overall.wins}-${home.record.overall.losses}` : '';
+
+    return `
+      <div class="matchup-card">
+        <div class="team-side away">
+          <div class="team-name">${awayName}</div>
+          ${awayRecord ? `<div class="team-record">${awayRecord}</div>` : ''}
+          ${awayWins ? `<span class="winner-badge">W</span>` : ''}
+        </div>
+        <div class="score-center">
+          <div class="score-display">${awayScore.toFixed(1)}<br><span style="font-size:14px;opacity:0.4">—</span><br>${homeScore.toFixed(1)}</div>
+          ${isBlowout ? `<div class="blowout-badge">Blowout</div>` : ''}
+        </div>
+        <div class="team-side home">
+          <div class="team-name">${homeName}</div>
+          ${homeRecord ? `<div class="team-record">${homeRecord}</div>` : ''}
+          ${homeWins ? `<span class="winner-badge">W</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = cards;
+
+  // Update weekly prize
+  document.getElementById('weekly-winner-name').textContent =
+    highScoreTeam ? `${highScoreTeam} · ${highScore.toFixed(1)} pts` : '—';
+
+  // Update iMessage preview
+  updateiMessage(weekMatchups, teams, week, season);
+}
+
+function renderStandings(teamJson) {
+  const teams = [...(teamJson.teams || [])];
+
+  // Sort by wins desc, then points for desc
+  teams.sort((a, b) => {
+    const aW = a.record?.overall?.wins || 0;
+    const bW = b.record?.overall?.wins || 0;
+    if (bW !== aW) return bW - aW;
+    const aPF = a.record?.overall?.pointsFor || 0;
+    const bPF = b.record?.overall?.pointsFor || 0;
+    return bPF - aPF;
+  });
+
+  const playoffSpots = Math.floor(teams.length / 3) + (teams.length > 6 ? 1 : 0);
+  // Rough estimate: top ~4 of 10 teams make playoffs
+
+  const rows = teams.map((team, i) => {
+    const name = getTeamName(team);
+    const wins = team.record?.overall?.wins ?? '—';
+    const losses = team.record?.overall?.losses ?? '—';
+    const pf = team.record?.overall?.pointsFor?.toFixed(1) || '—';
+    const isPlayoffCut = i === (playoffSpots - 1);
+
+    return `
+      <tr class="${isPlayoffCut ? 'playoff-cut' : ''}">
+        <td class="rank-num">${i + 1}</td>
+        <td>
+          <div class="standings-team">${name}</div>
+        </td>
+        <td class="standings-wl">${wins}–${losses}</td>
+        <td class="standings-pts">${pf}</td>
+      </tr>
+    `;
+  }).join('');
+
+  document.getElementById('standings-body').innerHTML = rows;
+}
+
+function updateMeta(season, week, teamJson) {
+  document.getElementById('meta-line').textContent =
+    `League ID ${LEAGUE_ID} · ${season} Season · Week ${week} · ${teamJson.teams?.length || 0} Teams`;
+  document.getElementById('week-label').textContent = `Week ${week}`;
+}
+
+function updateiMessage(weekMatchups, teams, week, season) {
+  const narrative = document.getElementById('narrative-input').value;
+  const preview = document.getElementById('imessage-preview');
+
+  const resultsLines = weekMatchups.map(m => {
+    const away = getTeamById(teams, m.away?.teamId);
+    const home = getTeamById(teams, m.home?.teamId);
+    const aScore = (m.away?.totalPoints || 0).toFixed(1);
+    const hScore = (m.home?.totalPoints || 0).toFixed(1);
+    const aName = getTeamName(away);
+    const hName = getTeamName(home);
+    const aWin = parseFloat(aScore) > parseFloat(hScore);
+    return `${aWin ? '✅' : '  '} ${aName}: ${aScore}\n${!aWin ? '✅' : '  '} ${hName}: ${hScore}`;
+  }).join('\n\n');
+
+  const msg = `🏈 Commissioner's Corner — Week ${week}\n\n` +
+    `RESULTS:\n${resultsLines}\n\n` +
+    (narrative ? `—\n${narrative}\n\n` : '') +
+    `— The Commissioner`;
+
+  preview.textContent = msg;
+}
+
+// Live update iMessage as narrative changes
+document.getElementById('narrative-input').addEventListener('input', () => {
+  if (matchupData) {
+    const teams = leagueData?.teams || [];
+    const week = currentWeek;
+    updateiMessage(matchupData, teams, week, '');
+  } else {
+    const preview = document.getElementById('imessage-preview');
+    const narrative = document.getElementById('narrative-input').value;
+    if (narrative) {
+      preview.textContent = `🏈 Commissioner's Corner\n\n—\n${narrative}\n\n— The Commissioner`;
+    }
+  }
+});
+
+// Store refs for iMessage live update
+const origRender = renderMatchups;
+window.renderMatchups = function(matchJson, teamJson, week, season) {
+  matchupData = matchJson.schedule?.filter(m => m.matchupPeriodId === parseInt(week)) || [];
+  leagueData = teamJson;
+  origRender(matchJson, teamJson, week, season);
+};
+
+function copyiMessage() {
+  const text = document.getElementById('imessage-preview').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+}
+</script>
+
+</body>
+</html>
